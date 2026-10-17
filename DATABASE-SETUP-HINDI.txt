@@ -1,0 +1,31 @@
+ISCE BOARD — DATABASE CONNECTED CODE PACKAGE
+
+Is version mein frontend Netlify Function API ko call karta hai aur API Supabase PostgreSQL table mein shared records save karti hai. Yeh independent demo portal hai, official CISCE/ICSE board se affiliated nahi.
+
+IMPORTANT HONEST NOTE:
+Code integration taiyar hai, lekin tumhare Supabase project ke credentials mere paas nahi hain, isliye main tumhare account par live database connect/deploy nahi kar sakta. Live chalane ke liye neeche ka one-time setup zaroori hai.
+
+ONE-TIME SETUP:
+1) Supabase mein project banao.
+2) Supabase > SQL Editor mein supabase/schema.sql ka poora SQL run karo.
+3) Netlify mein is project ko deploy karo.
+4) Netlify Site configuration > Environment variables mein ye values set karo:
+   SUPABASE_URL = tumhare Supabase project ka URL
+   SUPABASE_SERVICE_ROLE_KEY = Supabase service_role/secret key (sirf server-side env var; kabhi HTML/app.js mein mat daalna)
+   BOARD_ADMIN_ID = admin (optional; default admin)
+   BOARD_ADMIN_PASSWORD = apna strong password (recommended; default demo password Board@123)
+   DEMO_SCHOOL_ID = SCHOOL1001 (optional)
+   DEMO_SCHOOL_PASSWORD = apna demo password (recommended; default School@123)
+5) Netlify par redeploy karo.
+
+LOGIN (agar custom env vars nahi set kiye):
+Board ID: admin
+Board password: Board@123
+Demo School ID: SCHOOL1001
+Demo School password: School@123
+
+DATA:
+School applications, approved school accounts, students, exam-form status, marks, notices, publish flags aur sessions Supabase ki portal_state row mein store hote hain. Is starter implementation mein ek JSONB row use hoti hai; bahut zyada concurrent traffic/production student data ke liye normalized tables, stronger auth, audit logs, rate limits, session expiry aur security review ki zaroorat hai. Public real student data is demo par mat daalna.
+
+DEPLOY:
+Netlify Drop sirf static files ke liye hai; functions ko support karne ke liye Git-based Netlify deploy use karo, ya Netlify CLI. ZIP ko sirf Drop par daalne se serverless functions run nahi hongi.
